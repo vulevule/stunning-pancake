@@ -2,6 +2,8 @@ package com.nc.naucnicentar.controller;
 
 import java.io.Serializable;
 
+
+
 public class Order implements Serializable{
 
 	/**
@@ -15,17 +17,34 @@ public class Order implements Serializable{
 
 	private Long amount;
 	
-	private PayPalRedirectUrls redirectUrls;
+	//private PayPalRedirectUrls redirectUrls;
+	
+	private String failUrl;
+	
+	private String successUrl;
 	
 	
 
-	public PayPalRedirectUrls getRedirectUrls() {
-		return redirectUrls;
+	
+
+	public String getSuccessUrl() {
+		return successUrl;
 	}
 
-	public void setRedirectUrls(PayPalRedirectUrls redirectUrls) {
-		this.redirectUrls = redirectUrls;
+	public void setSuccessUrl(String successUrl) {
+		this.successUrl = successUrl;
 	}
+
+	public String getFailUrl() {
+		return failUrl;
+	}
+
+	public void setFailUrl(String failUrl) {
+		this.failUrl = failUrl;
+	}
+	
+
+	
 
 	public Long getId() {
 		return id;
@@ -64,7 +83,7 @@ public class Order implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", seller=" + seller + ", amount=" + amount + ", redirectUrls=" + redirectUrls + "]";
+		return "Order [id=" + id + ", seller=" + seller + ", amount=" + amount + ", redirectUrls=" +"]";
 	}
 	
 	

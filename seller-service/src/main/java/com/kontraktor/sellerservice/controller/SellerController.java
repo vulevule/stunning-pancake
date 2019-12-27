@@ -43,7 +43,7 @@ public class SellerController {
 	OrderRepository orderRepo;
 	@PostMapping("/order")
 	public ResponseEntity<RedirectUrls> order(@RequestBody CustomOrder order){
-
+		System.out.println(order.toString());
 	    String generatedString = UUID.randomUUID().toString().replace("-", "");
 	    order.setToken(generatedString);
 	    orderRepo.save(order);
