@@ -1,6 +1,6 @@
-package com.kontraktor.paypalservice.model;
+package com.kontraktor.sellerservice.model;
 
-public class PayPalRedirectUrls {
+public class RedirectUrls {
 	private String return_url;
 	private String cancel_url;
 	public String getReturn_url() {
@@ -15,10 +15,10 @@ public class PayPalRedirectUrls {
 	public void setCancel_url(String cancel_url) {
 		this.cancel_url = cancel_url;
 	}
-	public PayPalRedirectUrls() {
+	public RedirectUrls() {
 		super();
 	}
-	public PayPalRedirectUrls(String return_url, String cancel_url) {
+	public RedirectUrls(String return_url, String cancel_url) {
 		super();
 		this.return_url = return_url;
 		this.cancel_url = cancel_url;

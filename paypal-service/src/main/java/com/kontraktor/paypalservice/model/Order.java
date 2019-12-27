@@ -8,15 +8,15 @@ public class Order {
 
 	private Long amount;
 	
-	private PayPalRedirectUrls redirectUrls;
+	private RedirectUrls redirectUrls;
 	
 	
 
-	public PayPalRedirectUrls getRedirectUrls() {
+	public RedirectUrls getRedirectUrls() {
 		return redirectUrls;
 	}
 
-	public void setRedirectUrls(PayPalRedirectUrls redirectUrls) {
+	public void setRedirectUrls(RedirectUrls redirectUrls) {
 		this.redirectUrls = redirectUrls;
 	}
 
@@ -53,6 +53,11 @@ public class Order {
 
 	public Order() {
 		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", seller=" + seller + ", amount=" + amount + ", redirectUrls=" + redirectUrls + "]";
 	}
 	
 	

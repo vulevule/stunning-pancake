@@ -1,0 +1,6 @@
+<h1>Choose payment method</h1>
+<div *ngFor="let method of paymentMethods">
+  
+  <img  (click)="pay(method)"src="{{method.imageSrc}}" alt="Check out with PayPal" />  
+</div>
+

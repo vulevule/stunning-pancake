@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kontraktor.paypalservice.model.Order;
-import com.kontraktor.paypalservice.model.OrderResponse;
 import com.kontraktor.paypalservice.model.PaymentRef;
+import com.kontraktor.paypalservice.model.RedirectUrls;
 import com.kontraktor.paypalservice.model.SellerInfo;
 import com.kontraktor.paypalservice.service.PaymentService;
 import com.kontraktor.paypalservice.service.SellerService;
@@ -24,8 +24,6 @@ import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
-import com.paypal.api.payments.PaymentExecution;
-import com.paypal.api.payments.RedirectUrls;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
@@ -39,14 +37,16 @@ public class SellerController {
 	private PaymentService paymentService;
 
 	@PostMapping("/order")
-	public String createOrder(@RequestBody Order order){
+	public ResponseEntity<RedirectUrls> createOrder(@RequestBody Order order){
+		
+		System.out.println(order.toString());
 		SellerInfo seller = sellerService.findOne(order.getSeller().getId());
 		APIContext context = new APIContext(seller.getClientId(), seller.getClientSecret(), "sandbox");
 		Payer payer = new Payer();
 		payer.setPaymentMethod("paypal");
 
 		// Set redirect URLs
-		RedirectUrls redirectUrls = new RedirectUrls();
+		com.paypal.api.payments.RedirectUrls redirectUrls = new com.paypal.api.payments.RedirectUrls();
 		redirectUrls.setCancelUrl("http://localhost:8001/api/paypal/fail");
 		redirectUrls.setReturnUrl("http://localhost:8001/api/paypal/success");
 
@@ -84,27 +84,30 @@ public class SellerController {
 		  while (links.hasNext()) {
 		    Links link =  links.next();
 		    if (link.getRel().equalsIgnoreCase("approval_url")) {
-		    	System.out.println(link.getHref());
-		       return "redirect:" + link.getHref();
+		    	//System.out.println(link.getHref());
+		    	RedirectUrls urls = new RedirectUrls();
+		    	urls.setReturn_url(link.getHref());
+		       return  new ResponseEntity<>(urls, HttpStatus.OK);
 		    }
 		  }
 		} catch (PayPalRESTException e) {
-		    return "fail";
+		       return  new ResponseEntity<>( HttpStatus.NOT_FOUND);
 		}
-		return "fail";
+	       return  new ResponseEntity<>( HttpStatus.NOT_ACCEPTABLE);
+
 	}
 	@GetMapping("/success")
-	public ResponseEntity<OrderResponse> success(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
+	public String success(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
 		try {
 			paymentService.execute(paymentId, payerId);
-		  return new ResponseEntity<>(new OrderResponse("success"), HttpStatus.OK );
+			return "redirect:" + "http://localhost:4200/success";
 		} catch (PayPalRESTException e) {
-			  return new ResponseEntity<>(new OrderResponse("fail"), HttpStatus.OK );
+			return "redirect:" + "http://localhost:4200/success";
 
 		}
 	}
 	@GetMapping("/fail")
-	public ResponseEntity<OrderResponse> fail(){
-		return new ResponseEntity<>(new OrderResponse("fail"), HttpStatus.NOT_ACCEPTABLE);
+	public String fail(){
+		return "redirect:" + "http://localhost:4200/fail";
 	}
 }

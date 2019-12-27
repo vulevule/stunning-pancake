@@ -1,0 +1,8 @@
+<div>
+  <form [formGroup]="paymentForm" #formDirective="ngForm" class="line_form">
+    <mat-form-field class="ime_linije name-field">
+      <input type="number" matInput placeholder="Amount" formControlName="amount">
+    </mat-form-field>
+    <button mat-raised-button color="primary"  (click)="onAddLine()"  type="submit" class="button" [disabled]="paymentForm.invalid">plati</button>
+  </form>
+</div>

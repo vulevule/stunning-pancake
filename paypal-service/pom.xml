@@ -20,7 +20,10 @@
 	</properties>
 
 	<dependencies>
-		
+			<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
 		<dependency>  
 	    	<groupId>com.squareup.retrofit2</groupId>
 	    	<artifactId>converter-gson</artifactId>
@@ -30,7 +33,7 @@
 		<dependency>
 		    <groupId>com.squareup.okhttp3</groupId>
 		    <artifactId>okhttp</artifactId>
-		    <version>3.12.0</version>
+		    
 		</dependency>
 		<dependency>
 		  <groupId>com.paypal.sdk</groupId>
