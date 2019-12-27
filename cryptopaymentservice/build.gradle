@@ -32,7 +32,7 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.1.7.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.1.7.RELEASE'
-    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.7.RELEASE'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.2.2.RELEASE'

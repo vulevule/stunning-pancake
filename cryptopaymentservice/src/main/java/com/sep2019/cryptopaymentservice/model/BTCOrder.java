@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 // https://developer.coingate.com/v2/docs/create-order from here
-public class BTCOrder implements Serializable {
+public class BTCOrder {
     private String order_id;
     private Double price_amount;
     private String price_currency = "BTC";
