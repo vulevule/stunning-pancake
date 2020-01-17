@@ -1,4 +1,4 @@
-package com.nc.naucnicentar.controller;
+package com.nc.naucnicentar.model;
 
 import java.util.Base64;
 

@@ -14,7 +14,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
@@ -27,26 +26,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
+import com.nc.naucnicentar.model.Order;
 
 @Controller
 @RequestMapping("/api/payment")
 public class PaymentController {
+	
 	@PostMapping("/order")
 	public ResponseEntity<String> order(@RequestBody Order order) throws UnsupportedOperationException, IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException{
+		
+		//restTemp.postForLocation("http://localhost:8000/api/seller-service/api/order", order);
 		//SECURITY PRO PA ONDA REQUEST
+		
 		String password = "password";
 		System.out.println("usao");
 		SSLContext sslContext = SSLContextBuilder
                 .create()
-                .loadKeyMaterial(ResourceUtils.getFile("classpath:MyClient.jks"), password.toCharArray(), password.toCharArray())
-                .loadTrustMaterial(ResourceUtils.getFile("classpath:MyClient.jks"), password.toCharArray())
+                .loadKeyMaterial(ResourceUtils.getFile("classpath:Client.jks"), password.toCharArray(), password.toCharArray())
+                .loadTrustMaterial(ResourceUtils.getFile("classpath:Client.jks"), password.toCharArray())
                 .build();
-		String       postUrl       = "http://localhost:8000/api/seller-service/api/order";// put in your url
+		String       postUrl       = "https://localhost:8000/api/seller-service/api/order";// put in your url
 		Gson         gson          = new Gson();
-		HttpClient   httpClient    = HttpClients.custom().setSslcontext(sslContext).build();
+		HttpClient   httpClient    = HttpClients.custom().setSSLContext(sslContext).build();
 		
 		
 		HttpPost     post          = new HttpPost(postUrl);
+		System.out.println(post);
 		StringEntity postingString = null;
 		try {
 			postingString = new StringEntity(gson.toJson(order));
@@ -59,7 +64,7 @@ public class PaymentController {
 		HttpResponse  response = null;
 		try {
 			 response = httpClient.execute(post);
-			 System.out.println(response.getStatusLine().getStatusCode());
+			 System.out.println(httpClient.toString());
 		} catch ( IOException e) {
 			e.printStackTrace();
 		}catch(Exception e){

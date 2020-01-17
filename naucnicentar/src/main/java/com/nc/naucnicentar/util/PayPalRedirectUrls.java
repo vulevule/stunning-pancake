@@ -1,4 +1,4 @@
-package com.nc.naucnicentar.controller;
+package com.nc.naucnicentar.util;
 
 public class PayPalRedirectUrls {
 	private String return_url;
