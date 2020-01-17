@@ -30,7 +30,7 @@ public class SellerInfo {
 
 
     public String getClientCredentialsBase64Encoded(){
-        return Base64.getEncoder().encodeToString((new String(this.getClientId()+ ":" + this.getClientSecret())).getBytes());
+        return Base64.getEncoder().encodeToString((new String(clientId + ":" + clientSecret)).getBytes());
     }
 
 
