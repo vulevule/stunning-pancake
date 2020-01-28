@@ -22,6 +22,8 @@ export class PaymentMethodsComponent implements OnInit {
       this.pmService.getPaymentMethods(this.token).subscribe(paymentMethods => {
         this.paymentMethods = paymentMethods;
         console.log(this.paymentMethods);
+      }, err=>{
+        console.log(JSON.stringify(err));
       })
     }
   }

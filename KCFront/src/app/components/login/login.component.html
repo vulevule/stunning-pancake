@@ -1,0 +1,11 @@
+<div>
+  <form  class="line_form">
+    <mat-form-field class="ime_linije name-field">
+      <input  [(ngModel)]="username" type="text" name="username" matInput placeholder="Username" >
+    </mat-form-field>
+    <mat-form-field class="ime_linije name-field">
+      <input  [(ngModel)]="password" type="password" name="password" matInput placeholder="Password" >
+    </mat-form-field>
+    <button mat-raised-button color="primary"  (click)="login()"  type="submit" class="button" >Login</button>
+  </form>
+</div>

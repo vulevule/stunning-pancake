@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {ShoppingCartService} from '../services/shopping-cart.service';
+import {ShoppingCartService} from '../../services/shopping-cart.service';
+import {Router} from '@angular/router';
+import { RegistrationService } from 'src/app/services/registration.service';
 @Component({
   selector: 'app-shoping-cart',
   templateUrl: './shoping-cart.component.html',
@@ -9,7 +11,9 @@ import {ShoppingCartService} from '../services/shopping-cart.service';
 export class ShopingCartComponent  {
 
     constructor(
-      private scService: ShoppingCartService 
+      private scService: ShoppingCartService,
+      private router: Router,
+      private rs : RegistrationService
       ) { }
       
     
@@ -19,7 +23,14 @@ export class ShopingCartComponent  {
     
     
   
-    
+    start(processName){
+      if (processName == "Registration"){
+        localStorage.setItem("user", "guest");
+      }
+      this.rs.startProcess(processName).subscribe(res => {
+        this.router.navigate(['./tasks']);
+      })
+    }
     onAddLine() {
       var order = {
         amount: this.paymentForm.controls['amount'].value,

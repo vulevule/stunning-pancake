@@ -1,4 +1,7 @@
 <div>
+  <button mat-raised-button color="primary" (click)="start('Registration')" class="button">Registration</button>
+  <button mat-raised-button color="primary" (click)="start('NewMagazine')" class="button">Add new magazine</button>
+
   <form [formGroup]="paymentForm" #formDirective="ngForm" class="line_form">
     <mat-form-field class="ime_linije name-field">
       <input type="number" matInput placeholder="Amount" formControlName="amount">

@@ -1,0 +1,5 @@
+<div *ngFor="let task of tasks">
+  <h2>{{task.name}}</h2>
+  <button mat-raised-button color="primary" (click)="start(task)" class="button">start</button>
+
+</div>

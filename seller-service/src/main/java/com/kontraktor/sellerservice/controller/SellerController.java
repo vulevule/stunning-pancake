@@ -4,8 +4,15 @@ package com.kontraktor.sellerservice.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.List;
 import java.util.UUID;
+
+import javax.net.ssl.SSLContext;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -13,11 +20,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +56,7 @@ public class SellerController {
 	    String generatedString = UUID.randomUUID().toString().replace("-", "");
 	    order.setToken(generatedString);
 	    orderRepo.save(order);
-		RedirectUrls urls = new RedirectUrls("http://localhost:4201/paymentMethods?token=" + order.getToken() , "");
+		RedirectUrls urls = new RedirectUrls("https://localhost:4201/paymentMethods?token=" + order.getToken() , "");
 		return new ResponseEntity<RedirectUrls>(urls, HttpStatus.OK);
 		
 	}
@@ -61,16 +70,21 @@ public class SellerController {
 		return new ResponseEntity<>(order.getSeller().getPaymentMethods(), HttpStatus.OK);
 	}
 	@GetMapping("/pay/{token}/{method}")
-	public ResponseEntity<String> makePayment(@PathVariable("token") String token, @PathVariable("method") String method) throws ParseException, IOException{
+	public ResponseEntity<String> makePayment(@PathVariable("token") String token, @PathVariable("method") String method) throws ParseException, IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException{
 		PaymentMethod paymentMethod = paymentMethodRepo.findOne(method);
 		System.out.println(method.toString());
 		CustomOrder order = orderRepo.findByToken(token);
 		System.out.println(order);
 		OrderDto orderDto = new OrderDto(order);
-		
-		String       postUrl       = "http://localhost:8000/api/" + paymentMethod.getServiceName() + "/api/paypal/order";// put in your url
+		String password = "password";
+		String       postUrl       = "https://localhost:8000/api/" + paymentMethod.getServiceName() + "/api/paypal/order";// put in your url
 		Gson         gson          = new Gson();
-		HttpClient   httpClient    = HttpClientBuilder.create().build();
+		SSLContext sslContext = SSLContextBuilder
+                .create()
+                .loadKeyMaterial(ResourceUtils.getFile("classpath:SellerService.jks"), password.toCharArray(), password.toCharArray())
+                .loadTrustMaterial(ResourceUtils.getFile("classpath:SellerService.jks"), password.toCharArray())
+                .build();
+		HttpClient   httpClient    = HttpClientBuilder.create().setSSLContext(sslContext).build();
 		HttpPost     post          = new HttpPost(postUrl);
 		StringEntity postingString = null;
 		try {
