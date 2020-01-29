@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class PaymentMethodsService {
 
   constructor(private http : HttpClient) { }
-  private paymentMethodsUrl = `https://localhost:8000/api/seller-service/api/`;
+  private paymentMethodsUrl = `http://localhost:8000/api/seller-service/api/`;
   getPaymentMethods(token){
     return this.http.get<any>(this.paymentMethodsUrl + "paymentMethods/" + token);
   }

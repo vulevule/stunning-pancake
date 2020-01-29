@@ -44,7 +44,7 @@ public class PaymentController {
                 .loadKeyMaterial(ResourceUtils.getFile("classpath:Client.jks"), password.toCharArray(), password.toCharArray())
                 .loadTrustMaterial(ResourceUtils.getFile("classpath:Client.jks"), password.toCharArray())
                 .build();
-		String       postUrl       = "https://localhost:8000/api/seller-service/api/order";// put in your url
+		String       postUrl       = "http://localhost:8000/api/seller-service/api/order";// put in your url
 		Gson         gson          = new Gson();
 		HttpClient   httpClient    = HttpClients.custom().setSSLContext(sslContext).build();
 		
