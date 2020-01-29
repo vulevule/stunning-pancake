@@ -18,7 +18,7 @@ export class RegistrationComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.regService.getForm(params['task'])
       .subscribe(
-        res => {
+        (res: {}) => {
               this.title = "Registration started!";
               this.formFields = res.formFields;
               this.taskId = res.taskId;

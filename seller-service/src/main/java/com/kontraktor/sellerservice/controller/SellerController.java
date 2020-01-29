@@ -77,14 +77,16 @@ public class SellerController {
 		System.out.println(order);
 		OrderDto orderDto = new OrderDto(order);
 		String password = "password";
-		String       postUrl       = "https://localhost:8000/api/" + paymentMethod.getServiceName() + "/api/paypal/order";// put in your url
+		String       postUrl       = "http://localhost:8000/api/" + paymentMethod.getServiceName() + "/api/" + paymentMethod.getName() + "/order";// put in your url
+
 		Gson         gson          = new Gson();
-		SSLContext sslContext = SSLContextBuilder
-                .create()
-                .loadKeyMaterial(ResourceUtils.getFile("classpath:SellerService.jks"), password.toCharArray(), password.toCharArray())
-                .loadTrustMaterial(ResourceUtils.getFile("classpath:SellerService.jks"), password.toCharArray())
-                .build();
-		HttpClient   httpClient    = HttpClientBuilder.create().setSSLContext(sslContext).build();
+//		SSLContext sslContext = SSLContextBuilder
+//                .create()
+//                .loadKeyMaterial(ResourceUtils.getFile("classpath:SellerService.jks"), password.toCharArray(), password.toCharArray())
+//                .loadTrustMaterial(ResourceUtils.getFile("classpath:SellerService.jks"), password.toCharArray())
+//                .build();
+//		HttpClient   httpClient    = HttpClientBuilder.create().setSSLContext(sslContext).build();
+		HttpClient   httpClient    = HttpClientBuilder.create().build();
 		HttpPost     post          = new HttpPost(postUrl);
 		StringEntity postingString = null;
 		try {
