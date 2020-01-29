@@ -45,24 +45,14 @@ public class SellerController {
 //		payer.setPaymentMethod("bitcoin");
 
 		Map<String, Object> retVal = bTCClient.create(order);
-		// Set redirect URLs
-//		com.paypal.api.payments.RedirectUrls redirectUrls = new com.paypal.api.payments.RedirectUrls();
-//		redirectUrls.setCancelUrl("http://localhost:8002/api/paypal/fail");
-//		redirectUrls.setReturnUrl("http://localhost:8002/api/paypal/success");
 		if (retVal.get("status").equals("success")) {
 			retVal.put("return_url", retVal.get("redirect_url"));
-//			Proceed to pay url
-//			URI yahoo = new URI(retVal.get("redirect_url").toString());
-//			HttpHeaders httpHeaders = new HttpHeaders();
-//			httpHeaders.setLocation(yahoo);
-//			return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 			return ResponseEntity.ok(retVal);
 		} else {
 //			Error
+			retVal.put("return_url", "http://localhost:8002/api/bitcoin/fail");
+			return ResponseEntity.unprocessableEntity().body(retVal);
 		}
-
-		return null;
-
 	}
 
 	@GetMapping("/success")
