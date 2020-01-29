@@ -46,11 +46,14 @@ public class SellerController {
 		payer.setPaymentMethod("paypal");
 
 		// Set redirect URLs
+		
 		com.paypal.api.payments.RedirectUrls redirectUrls = new com.paypal.api.payments.RedirectUrls();
+		
+		
 		redirectUrls.setCancelUrl("http://localhost:8001/api/paypal/fail");
 		redirectUrls.setReturnUrl("http://localhost:8001/api/paypal/success");
 
-		
+		System.out.println(order.getRedirectUrls().getReturn_url());
 
 		// Payment amount
 		Amount amount = new Amount();
@@ -77,8 +80,12 @@ public class SellerController {
 		
 		// Create payment
 		try {
+			System.out.println("Creating order...");
 		  Payment createdPayment = payment.create(context);
+			System.out.println("Order created...");
+
 		  PaymentRef pf = new PaymentRef(createdPayment.getId(), seller);
+		  pf.setOrder(order);
 		  paymentService.save(pf);
 		  Iterator<Links> links = createdPayment.getLinks().iterator();
 		  while (links.hasNext()) {
@@ -98,11 +105,12 @@ public class SellerController {
 	}
 	@GetMapping("/success")
 	public String success(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
+		PaymentRef ref = paymentService.findOne(paymentId);
 		try {
-			paymentService.execute(paymentId, payerId);
-			return "redirect:" + "http://localhost:4200/success";
+			paymentService.execute(paymentId, payerId);			
+			return "redirect:" + ref.getOrder().getRedirectUrls().getReturn_url();
 		} catch (PayPalRESTException e) {
-			return "redirect:" + "http://localhost:4200/success";
+			return "redirect:" + ref.getOrder().getRedirectUrls().getCancel_url() ;
 
 		}
 	}

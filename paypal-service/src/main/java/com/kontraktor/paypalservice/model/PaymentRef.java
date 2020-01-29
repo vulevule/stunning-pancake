@@ -1,11 +1,13 @@
 package com.kontraktor.paypalservice.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 @Entity
 public class PaymentRef {
 	@Id
@@ -15,7 +17,17 @@ public class PaymentRef {
 	private String paymentId;
 	@ManyToOne
 	private SellerInfo seller;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Order order;
 	
+	
+	
+	public Order getOrder() {
+		return order;
+	}
+	public void setOrder(Order order) {
+		this.order = order;
+	}
 	public String getPaymentId() {
 		return paymentId;
 	}

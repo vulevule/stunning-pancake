@@ -56,7 +56,7 @@ public class SellerController {
 	    String generatedString = UUID.randomUUID().toString().replace("-", "");
 	    order.setToken(generatedString);
 	    orderRepo.save(order);
-		RedirectUrls urls = new RedirectUrls("https://localhost:4201/paymentMethods?token=" + order.getToken() , "");
+		RedirectUrls urls = new RedirectUrls("http://localhost:4201/paymentMethods?token=" + order.getToken() , "");
 		return new ResponseEntity<RedirectUrls>(urls, HttpStatus.OK);
 		
 	}

@@ -26,6 +26,6 @@ export class RegistrationService {
     return this.http.get("http://localhost:8007/register/startProcess/" + name) as Observable<any>;
   }
   getForm(task){
-    return this.http.get("http://localhost:8007/register/getFrom/" + task);
+    return this.http.get("http://localhost:8007/register/getFrom/" + task) as Observable<any>;
   }
 }

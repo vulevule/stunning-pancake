@@ -39,7 +39,6 @@ public class PaymentController {
 		//SECURITY PRO PA ONDA REQUEST
 		
 		String password = "password";
-		System.out.println("usao");
 		SSLContext sslContext = SSLContextBuilder
                 .create()
                 .loadKeyMaterial(ResourceUtils.getFile("classpath:Client.jks"), password.toCharArray(), password.toCharArray())
@@ -51,8 +50,9 @@ public class PaymentController {
 		
 		
 		HttpPost     post          = new HttpPost(postUrl);
-		System.out.println(post);
 		StringEntity postingString = null;
+		order.setFailUrl("http://localhost:4200/fail");
+		order.setSuccessUrl("http://localhost:4200/success");
 		try {
 			postingString = new StringEntity(gson.toJson(order));
 		} catch (UnsupportedEncodingException e) {

@@ -16,9 +16,7 @@ public class Order implements Serializable{
 	private SellerInfo seller;
 
 	private Long amount;
-	
-	//private PayPalRedirectUrls redirectUrls;
-	
+		
 	private String failUrl;
 	
 	private String successUrl;
