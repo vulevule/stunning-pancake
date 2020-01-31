@@ -17,5 +17,13 @@ export class ShoppingCartService {
   makePayment(order){
     return this.http.post<any>(this.lineUrl , order);
   }
-  
+  getEditions(){
+    return this.http.get<any>('http://localhost:8007/api/payment/editions');
+  }
+  payEdition(id){
+    return this.http.post<any>('http://localhost:8007/api/payment/pay/edition/' + id, {});
+  }
+  getEdition(id){
+    return this.http.get<any>('http://localhost:8007/api/payment/success/' + id);
+  }
 }

@@ -31,6 +31,11 @@ public class SellerInfo {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "SellerInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", paymentMethods="
+				+ paymentMethods + "]";
+	}
 	public List<PaymentMethod> getPaymentMethods() {
 		return paymentMethods;
 	}

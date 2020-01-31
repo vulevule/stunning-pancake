@@ -9,12 +9,14 @@ import { RegistrationService } from 'src/app/services/registration.service';
   styleUrls: ['./shoping-cart.component.css']
 })
 export class ShopingCartComponent  {
-
+    editions = []
     constructor(
       private scService: ShoppingCartService,
       private router: Router,
       private rs : RegistrationService
-      ) { }
+      ) { 
+        this.getAllEditions();
+      }
       
     
     paymentForm: FormGroup = new FormGroup({
@@ -31,6 +33,21 @@ export class ShopingCartComponent  {
         this.router.navigate(['./tasks']);
       })
     }
+    getAllEditions(){
+      this.scService.getEditions()
+          .subscribe(editions=>{
+            this.editions = editions;
+            console.log(this.editions);
+          })
+    }
+    handlePayEdition(id){
+      
+      this.scService.payEdition(id)
+          .subscribe(response=>{
+            console.log(response)
+            window.location.href = response.return_url;
+          })
+    }
     onAddLine() {
       var order = {
         amount: this.paymentForm.controls['amount'].value,
@@ -42,7 +59,6 @@ export class ShopingCartComponent  {
           failUrl: "asd"
         
       }
-      console.log(order)
       
       this.scService.makePayment(order)
           .subscribe(response=>{

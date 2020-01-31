@@ -9,11 +9,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @SpringBootApplication
 public class NaucnicentarApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(NaucnicentarApplication.class, args);
 	}
-	
-	
 }
 	

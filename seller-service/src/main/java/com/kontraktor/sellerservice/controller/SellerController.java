@@ -52,7 +52,7 @@ public class SellerController {
 	OrderRepository orderRepo;
 	@PostMapping("/order")
 	public ResponseEntity<RedirectUrls> order(@RequestBody CustomOrder order){
-		System.out.println(order.toString());
+		System.out.println(order.getSeller().toString());
 	    String generatedString = UUID.randomUUID().toString().replace("-", "");
 	    order.setToken(generatedString);
 	    orderRepo.save(order);
@@ -103,7 +103,7 @@ public class SellerController {
 			e.printStackTrace();
 		}		
 		String body = EntityUtils.toString(response.getEntity(), "UTF-8");
-
+		System.out.println(body);
 		return  new ResponseEntity<>(body, HttpStatus.OK);
 		
 		

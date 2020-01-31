@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kontraktor.paypalservice.model.Order;
+import com.kontraktor.paypalservice.model.Order;
 import com.kontraktor.paypalservice.model.PaymentRef;
 import com.kontraktor.paypalservice.model.RedirectUrls;
 import com.kontraktor.paypalservice.model.SellerInfo;
@@ -41,6 +42,7 @@ public class SellerController {
 		
 		System.out.println(order.toString());
 		SellerInfo seller = sellerService.findOne(order.getSeller().getId());
+		order.setSeller(seller);
 		APIContext context = new APIContext(seller.getClientId(), seller.getClientSecret(), "sandbox");
 		Payer payer = new Payer();
 		payer.setPaymentMethod("paypal");
@@ -86,7 +88,9 @@ public class SellerController {
 
 		  PaymentRef pf = new PaymentRef(createdPayment.getId(), seller);
 		  pf.setOrder(order);
+		  
 		  paymentService.save(pf);
+		  System.out.println("kreiram pay ref");
 		  Iterator<Links> links = createdPayment.getLinks().iterator();
 		  while (links.hasNext()) {
 		    Links link =  links.next();

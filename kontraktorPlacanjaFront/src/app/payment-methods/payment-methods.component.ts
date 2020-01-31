@@ -29,7 +29,6 @@ export class PaymentMethodsComponent implements OnInit {
   }
   pay(method){
     this.pmService.makePayment(this.token, method).subscribe(redirectUrls => {
-      console.log(redirectUrls)
       window.location.href = redirectUrls.return_url;
     })
   }

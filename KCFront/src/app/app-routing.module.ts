@@ -7,7 +7,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import {TasksComponent} from './components/tasks/tasks.component';
 import { LoginComponent } from './components/login/login.component';
 const routes: Routes = [
-  {path: 'success', component: SuccessPaymentComponent},
+  {path: 'success/:id', component: SuccessPaymentComponent},
   {path: 'fail', component: FailPaymentComponent},
   {path: 'task/:task', component: RegistrationComponent},
   {path: 'tasks', component : TasksComponent},
